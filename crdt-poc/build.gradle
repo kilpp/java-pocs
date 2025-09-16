@@ -1,0 +1,18 @@
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.netopyr.wurmloch:wurmloch-crdt:0.1.0'
+}
+
+application {
+    mainClassName = 'com.example.crdt.Main'
+}
