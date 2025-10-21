@@ -1,6 +1,7 @@
 package com.gk.controller;
 
 import com.gk.model.User;
+import com.gk.repository.UserRepository;
 import com.gk.service.UserService;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
@@ -9,13 +10,11 @@ import io.javalin.http.Context;
 
 import java.util.List;
 
-public class UserController {
-    private final UserService userService;
-    private final Gson gson = new Gson();
+public record UserController(UserService userService) {
+    private static final Gson gson = new Gson();
 
     @Inject
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController {
     }
 
     public void registerRoutes(Javalin app) {
