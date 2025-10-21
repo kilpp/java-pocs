@@ -12,7 +12,7 @@ public class Main {
 
         UserController controller = injector.getInstance(UserController.class);
 
-        Javalin app = Javalin.create(config -> config.defaultContentType = "application/json");
+        Javalin app = Javalin.create();
         controller.registerRoutes(app);
         app.start(7000);
 

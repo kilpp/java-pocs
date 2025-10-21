@@ -1,7 +1,12 @@
 package com.gk.repository;
 
 import com.gk.model.User;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryUserRepository implements UserRepository {
@@ -9,11 +14,15 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-        if (user.getId() == null || user.getId().isEmpty()) {
-            user.setId(UUID.randomUUID().toString());
+        if (user.id() == null || user.id().isEmpty()) {
+            String id = UUID.randomUUID().toString();
+            var newUser = new User(id, user.name(), user.email());
+            store.put(id, newUser);
+            return store.get(id);
+        } else {
+            store.put(user.id(), user);
+            return store.get(user.id());
         }
-        store.put(user.getId(), user);
-        return user;
     }
 
     @Override

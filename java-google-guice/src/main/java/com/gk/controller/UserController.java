@@ -1,9 +1,9 @@
 package com.gk.controller;
 
-import com.google.inject.Inject;
 import com.gk.model.User;
 import com.gk.service.UserService;
 import com.google.gson.Gson;
+import com.google.inject.Inject;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -21,9 +21,9 @@ public class UserController {
     public void registerRoutes(Javalin app) {
         app.post("/users", this::createUser);
         app.get("/users", this::listUsers);
-        app.get("/users/:id", this::getUser);
-        app.put("/users/:id", this::updateUser);
-        app.delete("/users/:id", this::deleteUser);
+        app.get("/users/{id}", this::getUser);
+        app.put("/users/{id}", this::updateUser);
+        app.delete("/users/{id}", this::deleteUser);
     }
 
     private void createUser(Context ctx) {
@@ -40,7 +40,7 @@ public class UserController {
     private void getUser(Context ctx) {
         String id = ctx.pathParam("id");
         userService.getById(id).ifPresentOrElse(
-                user -> ctx.json(user),
+                ctx::json,
                 () -> ctx.status(404).result("Not found")
         );
     }
@@ -49,7 +49,7 @@ public class UserController {
         String id = ctx.pathParam("id");
         User user = gson.fromJson(ctx.body(), User.class);
         userService.update(id, user).ifPresentOrElse(
-                updated -> ctx.json(updated),
+                ctx::json,
                 () -> ctx.status(404).result("Not found")
         );
     }
