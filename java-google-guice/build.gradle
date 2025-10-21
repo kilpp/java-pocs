@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group = 'com.gk'
@@ -10,9 +11,18 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.google.inject:guice:5.1.0'
+    implementation 'io.javalin:javalin:5.6.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+application {
+    // Gradle 7+ uses mainClass = 'package.Class'
+    mainClass = 'com.gk.Main'
 }
 
 test {
