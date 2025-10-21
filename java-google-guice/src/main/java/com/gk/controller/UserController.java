@@ -1,14 +1,11 @@
 package com.gk.controller;
 
 import com.gk.model.User;
-import com.gk.repository.UserRepository;
 import com.gk.service.UserService;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-
-import java.util.List;
 
 public record UserController(UserService userService) {
     private static final Gson gson = new Gson();
@@ -32,8 +29,7 @@ public record UserController(UserService userService) {
     }
 
     private void listUsers(Context ctx) {
-        List<User> users = userService.list();
-        ctx.json(users);
+        ctx.json(userService.list());
     }
 
     private void getUser(Context ctx) {
@@ -56,7 +52,10 @@ public record UserController(UserService userService) {
     private void deleteUser(Context ctx) {
         String id = ctx.pathParam("id");
         boolean removed = userService.delete(id);
-        if (removed) ctx.status(204);
-        else ctx.status(404).result("Not found");
+        if (removed) {
+            ctx.status(204);
+        } else {
+            ctx.status(404).result("Not found");
+        }
     }
 }
