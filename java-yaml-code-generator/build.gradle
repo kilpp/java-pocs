@@ -1,0 +1,25 @@
+plugins {
+	id 'java'
+}
+repositories {
+	mavenCentral()
+}
+dependencies {
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.9.0'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.8.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.8.0'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '2.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+

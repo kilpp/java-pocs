@@ -1,0 +1,12 @@
+- className: Converter
+  imports:
+    - "import test.Loan;"
+    - "import test.LoanDTO;"
+  methods:
+    - name: convert
+      returnType: LoanDTO
+      parameters:
+        - name: loan
+          type: Loan
+
+
