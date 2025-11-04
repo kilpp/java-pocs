@@ -1,5 +1,6 @@
 package com.gk.service;
 
+import com.gk.aop.NotOnWeekDays;
 import com.gk.model.User;
 import com.gk.repository.UserRepository;
 import com.google.inject.Inject;
@@ -7,13 +8,17 @@ import com.google.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-public record UserServiceImpl(UserRepository repository) implements UserService {
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository repository;
 
     @Inject
-    public UserServiceImpl {
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
     }
 
     @Override
+    @NotOnWeekDays
     public User create(User user) {
         return repository.save(user);
     }

@@ -6,27 +6,31 @@ import com.google.gson.Gson;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.javalin.Javalin;
-import okhttp3.*;
-import org.junit.jupiter.api.*;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UserControllerIntegrationTest {
     private static final Gson gson = new Gson();
     private Javalin app;
-    private int port;
+    private final int port = 7100;
     private OkHttpClient client;
 
     @BeforeEach
     void setUp() {
         Injector injector = Guice.createInjector(new AppModule());
         UserController controller = injector.getInstance(UserController.class);
-        app = Javalin.create();
-        controller.registerRoutes(app);
-        port = 7100; // fixed port for tests
-        app.start(port);
+        app = Javalin.create(controller::registerRoutes).start(port);
         client = new OkHttpClient();
     }
 
@@ -35,7 +39,9 @@ class UserControllerIntegrationTest {
         app.stop();
     }
 
-    String url(String path) { return "http://localhost:" + port + path; }
+    String url(String path) {
+        return "http://localhost:" + port + path;
+    }
 
     @Test
     void createAndGetUser() throws IOException {

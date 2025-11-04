@@ -24,6 +24,9 @@ class AppModuleTest {
 
         UserController controller = injector.getInstance(UserController.class);
         assertNotNull(controller);
+
+        WeekDayBlocker blocker = injector.getInstance(WeekDayBlocker.class);
+        assertNotNull(blocker);
     }
 }
 

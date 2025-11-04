@@ -4,22 +4,25 @@ import com.gk.model.User;
 import com.gk.service.UserService;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
-import io.javalin.Javalin;
+import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
 
-public record UserController(UserService userService) {
+public class UserController {
     private static final Gson gson = new Gson();
 
+    private final UserService userService;
+
     @Inject
-    public UserController {
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    public void registerRoutes(Javalin app) {
-        app.post("/users", this::createUser);
-        app.get("/users", this::listUsers);
-        app.get("/users/{id}", this::getUser);
-        app.put("/users/{id}", this::updateUser);
-        app.delete("/users/{id}", this::deleteUser);
+    public void registerRoutes(JavalinConfig config) {
+        config.routes.post("/users", this::createUser);
+        config.routes.get("/users", this::listUsers);
+        config.routes.get("/users/{id}", this::getUser);
+        config.routes.put("/users/{id}", this::updateUser);
+        config.routes.delete("/users/{id}", this::deleteUser);
     }
 
     private void createUser(Context ctx) {
