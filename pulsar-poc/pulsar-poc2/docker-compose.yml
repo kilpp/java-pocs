@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  pulsar:
+    image: apachepulsar/pulsar:latest
+    container_name: pulsar-standalone
+    ports:
+      - "6650:6650"  # Pulsar binary protocol
+      - "8080:8080"  # Pulsar admin REST API
+    command: bin/pulsar standalone
+    environment:
+      - PULSAR_MEM="-Xms512m -Xmx512m -XX:MaxDirectMemorySize=256m"
+    healthcheck:
+      test: ["CMD", "bin/pulsar-admin", "brokers", "healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
