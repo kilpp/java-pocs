@@ -7,7 +7,7 @@ echo ""
 
 # Check if Docker is running
 if ! docker info > /dev/null 2>&1; then
-    echo "❌ Docker is not running. Please start Docker first."
+    echo "Docker is not running. Please start Docker first."
     exit 1
 fi
 
@@ -23,7 +23,7 @@ max_attempts=30
 attempt=0
 while [ $attempt -lt $max_attempts ]; do
     if docker exec pulsar-standalone bin/pulsar-admin brokers healthcheck > /dev/null 2>&1; then
-        echo "✅ Pulsar is ready!"
+        echo "Pulsar is ready!"
         break
     fi
     echo "   Still waiting... ($attempt/$max_attempts)"
@@ -32,7 +32,7 @@ while [ $attempt -lt $max_attempts ]; do
 done
 
 if [ $attempt -eq $max_attempts ]; then
-    echo "❌ Pulsar failed to start within the timeout period"
+    echo "Pulsar failed to start within the timeout period"
     exit 1
 fi
 
